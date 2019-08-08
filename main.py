@@ -4,42 +4,36 @@ import re
 from collections import Counter
 
 
-def hashtag(h = 'in.txt'):
+def hashtag(h='in.txt'):
     f = open(h, 'r')
-    l = f.readlines()
+    file = f.readlines()
     f.close()
-    # перебором в массиве строк сделать findall
-    S = []
-    for y in l:
-        T = re.findall(r'#\w+', y)
-        S.append(T)
-    a = []
-    Z = Counter()
+    S = [re.findall(r'#\w+', y) for y in file]
+    mass_10 = []
+    z = Counter()
     for i in S:
         E = Counter(i)
-        Z += E
-    Z1 = Z.most_common(10)
-    for k,v in Z1:
-        a.append(k) # массив с 10 значимыми хэштегами
-        #  словарь с массивами значимых слов
-    r = {}
+        z += E
+    z1 = Z.most_common(10)
+    for k, v in z1:
+        mass_10.append(k)  # массив с 10 значимыми хэштегами
 
-       # массив для значимых слов
-    for i in a:
-        G = Counter()
-        for k in l:
+    slov_hashtag = {}  # словарь с хэштегами
+    for i in mass_10:
+        g = Counter()
+        for k in file:
             q1 = re.sub(r'\#[A-Za-z]+', '', k)
             if i in k:
                 k1 = re.findall(r'\b[a-zA-Z]+', q1)
                 f = Counter(k1)
-                G += f
+                g += f
             else:
                 continue
-        G1 = G.most_common(5)
+        g1 = g.most_common(5)
         n = []
-        for k,v in G1:
+        for k, v in g1:
             n.append(k)
-        r[i] = n
-    return sys.stdout.write(str(a) + '\n' + str(r))
+        slov_hashtag[i] = n
+    return sys.stdout.write(str(mass_10) + '\n' + str(slov_hashtag))
 
 hashtag()
